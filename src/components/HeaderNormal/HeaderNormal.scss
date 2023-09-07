@@ -1,0 +1,57 @@
+
+.nav {
+    display:  flex;
+    justify-content: space-between;
+
+    .nav_icon {
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 8px 4px 20px;
+        .icon {
+            font-size: 50px;
+            height: 46px;
+            animation:infinite-spinning 10s linear infinite;
+        };
+        .trademark {
+            font-size: 30px;
+            color: rgb(64, 138, 241);
+        }
+        @keyframes infinite-spinning {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+    }
+
+    .nav_search-cart {
+        flex: 1;
+        margin: 4px 16px 0;
+        line-height: 64px;
+        display: flex;
+
+        .search{
+            flex: 1;
+        }
+        .cart {
+            padding: 0 0 0 24px;
+            display: block;
+            font-size: 24px;
+            margin-top: -5px;
+
+           
+        }
+    }   
+
+    .nav_account {
+        padding: 0 24px 0 12px;
+        .text {
+            font-size: 22px;
+            color: #888
+        }
+    }
+}
