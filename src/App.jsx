@@ -1,5 +1,11 @@
 
 
+import React, { useEffect, useState } from 'react';
+import {
+  createBrowserRouter,
+  RouterProvider,
+
+} from "react-router-dom";
 
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register'
@@ -20,19 +26,14 @@ import NotFound from './components/NotFound';
 import AdminPage from './pages/admin';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import LayoutNormal from './components/LayoutNormal';
-import LayoutAdmin from './components/LayoutAdmin';
+import LayoutNormal from './components/LayoutNormal'
+import LayoutAdmin from './components/Admin/LayoutAdmin';
 
 import './styles/reset.css'
 
+import UserTable from './components/Admin/User/UserTable';
 
-import React, { useEffect, useState } from 'react';
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-
-} from "react-router-dom";
 
 
 
@@ -100,7 +101,7 @@ export default function App() {
           path: "user",
           element:
             <ProtectedRoute>
-              <UserPage />
+              <UserTable />
             </ProtectedRoute>,
         },
         {

@@ -1,0 +1,23 @@
+
+
+.btn-delete {
+   padding: 0 12px;
+   color: green;
+   cursor: pointer;
+   font-size: 18px;
+}
+
+.btn-delete:hover {
+  opacity: 0.5;
+}
+
+.btn-edit {
+    padding: 0 0 0 12px;
+    color: rgb(219, 98, 16);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-edit:hover {
+    opacity: 0.5;
+}

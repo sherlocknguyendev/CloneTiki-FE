@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Space, Button, message } from 'antd';
+import { Dropdown, Space, Button, message, Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { doLogoutAction } from '../../redux/account/accountSlice';
-import { callLogout } from '../../service/api';
+import { useNavigate, Link } from 'react-router-dom';
+import { doLogoutAction } from '../../../redux/account/accountSlice';
+import { callLogout } from '../../../service/api';
 
 import './HeaderAdmin.scss'
 
@@ -27,7 +27,11 @@ const HeaderAdmin = () => {
 
     const items = [
         {
-            label: <label>Quản lý tài thoản</label>,
+            label: <Link to='/'>Trang chủ</Link>,
+            key: 'home',
+        },
+        {
+            label: <label style={{ cursor: 'pointer' }}>Quản lý tài thoản</label>,
             key: 'account',
         },
         {
@@ -40,26 +44,28 @@ const HeaderAdmin = () => {
 
 
     const userName = useSelector(state => state.account.user.fullName)
+    const user = useSelector(state => state.account.user)
+
+
+    const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user?.avatar}`;
+
 
     return (
         <>
             <div className="nav-admin-page">
 
                 <div className="account-admin-page">
-                    <span className='text'>Welcome, </span>
                     <Dropdown
                         menu={{
                             items,
                         }}
                         trigger={['click']}
                     >
-                        <a onClick={(e) => e.preventDefault()}>
-
-                            <Space style={{ fontSize: '20px' }}>
-                                {userName}
-                                <DownOutlined />
-                            </Space>
-                        </a>
+                        <Space style={{ fontSize: '20px', cursor: "pointer" }}>
+                            <Avatar src={urlAvatar}></Avatar>
+                            {userName}
+                            <DownOutlined />
+                        </Space>
                     </Dropdown>
                 </div>
             </div>

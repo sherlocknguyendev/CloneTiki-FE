@@ -5,7 +5,7 @@ import { BiLogoReact } from 'react-icons/bi'
 import { BsCart } from 'react-icons/bs'
 
 import { SearchOutlined } from '@ant-design/icons';
-import { Input, message } from 'antd';
+import { Avatar, Divider, Input, message } from 'antd';
 
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space, Badge } from 'antd';
@@ -40,7 +40,7 @@ const HeaderNormal = () => {
         }
     }
 
-    const items = [
+    let items = [
         {
             label: <label style={{ cursor: 'pointer' }}>Quản lý tài thoản</label>,
             key: 'account',
@@ -49,8 +49,16 @@ const HeaderNormal = () => {
             label: <label style={{ cursor: 'pointer' }} onClick={() => handleLogout()}>Đăng xuất</label>,
             key: 'logout',
         },
-
     ];
+    if (user?.role === 'ADMIN') {
+        items.unshift({
+            label: <Link to='/admin'>Trang quản trị</Link>,
+            key: 'admin',
+        })
+    }
+
+    const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user?.avatar}`;
+
 
     return (
         <>
@@ -74,20 +82,20 @@ const HeaderNormal = () => {
                 <div className="nav_account">
                     {userName ?
                         <>
-                            <span className='text'>Welcome, </span>
+
                             <Dropdown
+
                                 menu={{
                                     items,
                                 }}
                                 trigger={['click']}
                             >
-                                <a onClick={(e) => e.preventDefault()}>
 
-                                    <Space style={{ fontSize: '20px' }}>
-                                        {userName}
-                                        <DownOutlined />
-                                    </Space>
-                                </a>
+                                <Space style={{ fontSize: '20px', cursor: 'pointer' }}>
+                                    <Avatar src={urlAvatar}></Avatar>
+                                    {userName}
+                                    <DownOutlined />
+                                </Space>
                             </Dropdown>
                         </>
                         :
@@ -98,7 +106,7 @@ const HeaderNormal = () => {
 
 
                 </div>
-            </nav>
+            </nav >
         </>
     )
 }

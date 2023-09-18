@@ -13,7 +13,7 @@ cookies)
 httpOnly) -> Chỉ server mới tác động được 
     + Thời gian sống của Refresh token lâu hơn access token. Lưu ở cookies sẽ giảm
 thiểu rủi ro.
-        -> access token và refresh token chỉ là tên mình tự đặt và tự điều chỉnh;
+        -> access token và refresh token chỉ là tên mình tự đặt và tự điều chỉnh; 2 cái có 2 token khác nhau (API khác nhau)
 
 - antd: thư viện UI viết sẵn React Component -> Giúp design nhanh giao diện responsive thông qua component, tương tự như react-bootstrap
     + antd chia thành 24 columns, khác với bootstrap - 12 columns
@@ -37,3 +37,8 @@ thiểu rủi ro.
     -> ở bài này thì là: gọi API refresh khi API account bị fail (do config access_token thời gian ngắn) xog lấy token ở refresh gán vào account 
 
 - Thư viện 'ms' giúp convert để cho BE hiểu (covert từ string số sang minisecond - vì BE chỉ hiểu đc minisecond) 
+
+- Thư viện 'reqx': Giúp filter dễ dàng hơn 
+    + Ví dụ:
+      http://localhost:8080/api/v1/user?current=1&pageSize=2&fullName=/abc/i
+      => filter theo fullName có chứa từ 'abc'. tương tự như điều kiện %like% của SQL
