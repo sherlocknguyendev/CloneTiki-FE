@@ -64,8 +64,10 @@ const HeaderNormal = () => {
         <>
             <nav className='nav'>
                 <div className="nav_icon">
-                    <a className='icon'><BiLogoReact /></a>
-                    <div className='trademark'>S.N.Dev</div>
+                    <Link className='icon' to='/'>
+                        <BiLogoReact />
+                    </Link>
+                    <Link to='/' className='trademark'>S.N.Dev</Link>
                 </div>
                 <div className="nav_search-cart">
                     <div className='search'>

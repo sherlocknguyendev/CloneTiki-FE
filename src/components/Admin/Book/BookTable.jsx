@@ -2,16 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Row, Col, Space, Button, Popconfirm, message, notification } from 'antd';
 import { PlusOutlined, ReloadOutlined, ImportOutlined, ExportOutlined } from '@ant-design/icons';
-
-import InputSearch from './InputSearch'
-import './UserTable.scss'
-import { callDeleteUser, callFetchListUser } from '../../../service/api';
-import UserViewDetail from './UserViewDetail';
-import UserCreateModal from './UserCreateModal';
-import UserImport from './data/UserImport';
 import * as XLSX from 'xlsx';
 import { BsTrash3, BsPen } from 'react-icons/bs';
-import UserEditModal from './UserEditModal';
+
+import InputSearch from './InputSearch'
+import './BookTable.scss'
+import { callDeleteBook, callFetchListBook } from '../../../service/api';
+import BookViewDetail from './BookViewDetail';
+import BookCreateModal from './BookCreateModal';
+import BookEditModal from './BookEditModal';
 
 
 
@@ -19,21 +18,20 @@ import UserEditModal from './UserEditModal';
 
 
 
-const UserTable = () => {
+const BookTable = () => {
 
-    const [listUser, setListUser] = useState([]);
+    const [listBook, setListBook] = useState([]);
     const [current, setCurrent] = useState(1) // Trang thứ mấy
-    const [pageSize, setPageSize] = useState(3) // Số lượng user trong 1 trang
-    const [total, setTotal] = useState(0) // total: là tổng số lượng user -> nói cho table biết nó cần tạo ra bao nhiêu trang
+    const [pageSize, setPageSize] = useState(3) // Số lượng book trong 1 trang
+    const [total, setTotal] = useState(0) // total: là tổng số lượng book -> nói cho table biết nó cần tạo ra bao nhiêu trang
     const [isLoading, setIsLoading] = useState(false)
     const [filter, setFilter] = useState('');
-    const [sortQuery, setSortQuey] = useState('');
+    const [sortQuery, setSortQuery] = useState('');
 
     const [dataViewDetail, setDataViewDetail] = useState('')
     const [openViewDetail, setOpenViewDetail] = useState(false)
     const [openCreateModal, setOpenCreateModal] = useState(false)
 
-    const [openImportModal, setOpenImportModal] = useState(false)
 
     const [openEditModal, setOpenEditModal] = useState(false)
     const [editData, setEditData] = useState([])
@@ -42,11 +40,11 @@ const UserTable = () => {
 
 
     useEffect(() => {
-        fetchUser();
+        fetchBook();
     }, [current, pageSize, filter, sortQuery])
 
 
-    const fetchUser = async () => {
+    const fetchBook = async () => {
         setIsLoading(true)
         let query = `current=${current}&pageSize=${pageSize}`;
         if (filter) {
@@ -55,9 +53,9 @@ const UserTable = () => {
         if (sortQuery) {
             query += `${sortQuery}`
         }
-        const res = await callFetchListUser(query);
+        const res = await callFetchListBook(query);
         if (res && res.data) {
-            setListUser(res.data.result)
+            setListBook(res.data.result)
             setTotal(res.data.meta.total)
         }
 
@@ -85,32 +83,47 @@ const UserTable = () => {
             }
         },
         {
-            title: 'Tên hiển thị',
-            dataIndex: 'fullName',
+            title: 'Tên sách',
+            dataIndex: 'mainText',
             sorter: true
 
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
+            title: 'Thể loại',
+            dataIndex: 'category',
             sorter: true
 
         }, {
-            title: 'Số điện thoại',
-            dataIndex: 'phone',
+            title: 'Tác giả',
+            dataIndex: 'author',
             sorter: true
+
+        },
+        {
+            title: 'Giá tiền',
+            dataIndex: 'price',
+            sorter: true
+
+        },
+        {
+            title: 'Ngày cập nhật',
+            dataIndex: 'updatedAt',
+            sorter: true,
+            width: 200,
+
 
         },
         {
             title: 'Action',
+            width: 120,
             render: (text, record, index) => {
                 return (
                     <>
                         <Popconfirm
                             placement='leftTop'
-                            title={'Xác nhận xóa user'}
-                            description={'Bạn có chắc chắn muốn xóa user này?'}
-                            onConfirm={() => handleDeleteUser(record._id)}
+                            title={'Xác nhận xóa book'}
+                            description={'Bạn có chắc chắn muốn xóa book này?'}
+                            onConfirm={() => handleDeleteBook(record._id)}
                             okText='Xác nhận'
                             cancelText='Hủy'
                         >
@@ -133,11 +146,11 @@ const UserTable = () => {
         },
     ];
 
-    const handleDeleteUser = async (userId) => {
-        const res = await callDeleteUser(userId);
+    const handleDeleteBook = async (bookId) => {
+        const res = await callDeleteBook(bookId);
         if (res && res.data) {
-            message.success('Xóa người dùng thành công');
-            fetchUser();
+            message.success('Xóa sách thành công');
+            fetchBook();
         } else {
             notification.error({
                 message: 'Có lỗi xảy ra',
@@ -157,8 +170,9 @@ const UserTable = () => {
         }
         if (sorter && sorter.field) {
             const sorted = sorter.order === 'ascend' ? `&sort=${sorter.field}` : `&sort=-${sorter.field}`
-            setSortQuey(sorted) // sort ở đây theo trường createdAt ở DB
+            setSortQuery(sorted) // sort ở đây theo trường createdAt ở DB
         }
+
 
     }
 
@@ -168,9 +182,10 @@ const UserTable = () => {
         setFilter(query)
     }
 
+
     const downloadCSV = () => {
-        if (listUser.length > 0) {
-            const worksheet = XLSX.utils.json_to_sheet(listUser);
+        if (listBook.length > 0) {
+            const worksheet = XLSX.utils.json_to_sheet(listBook);
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
             //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
@@ -180,18 +195,13 @@ const UserTable = () => {
 
     }
 
+
     const renderHeader = () => {
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontStyle: 'italic', fontWeight: 500, fontSize: '20px' }}>Table List Users</span>
+                <span style={{ fontStyle: 'italic', fontWeight: 500, fontSize: '20px' }}>Table List Books</span>
                 <span style={{ display: 'flex', gap: 15 }}>
-                    <Button
-                        icon={<ImportOutlined />}
-                        type='primary'
-                        onClick={() => setOpenImportModal(true)}
-                    >
-                        Import
-                    </Button>
+
                     <Button
                         icon={<ExportOutlined />}
                         type='primary'
@@ -208,7 +218,7 @@ const UserTable = () => {
                     </Button>
                     <Button type='ghost' onClick={() => {
                         setFilter('');
-                        setSortQuey('');
+                        setSortQuery('');
                     }}>
                         <ReloadOutlined />
                     </Button>
@@ -235,10 +245,10 @@ const UserTable = () => {
                 <Col span={24}>
                     <Table
                         title={renderHeader}
-                        className='user-table'
+                        className='book-table'
                         rowKey='_id'
                         columns={columns}
-                        dataSource={listUser}
+                        dataSource={listBook}
 
                         onChange={onChange}
                         isLoading={isLoading}
@@ -260,26 +270,22 @@ const UserTable = () => {
 
             </Row>
 
-            <UserEditModal
+            <BookEditModal
                 openEditModal={openEditModal}
                 setOpenEditModal={setOpenEditModal}
                 editData={editData}
-                fetchUser={fetchUser}
+                fetchBook={fetchBook}
             />
 
-            <UserCreateModal
+            <BookCreateModal
                 openCreateModal={openCreateModal}
                 setOpenCreateModal={setOpenCreateModal}
+                fetchBook={fetchBook}
 
             />
 
-            <UserImport
-                openImportModal={openImportModal}
-                setOpenImportModal={setOpenImportModal}
-                fetchUser={fetchUser}
-            />
 
-            <UserViewDetail
+            <BookViewDetail
                 openViewDetail={openViewDetail}
                 setOpenViewDetail={setOpenViewDetail}
                 dataViewDetail={dataViewDetail}
@@ -293,4 +299,4 @@ const UserTable = () => {
 
 }
 
-export default UserTable
+export default BookTable

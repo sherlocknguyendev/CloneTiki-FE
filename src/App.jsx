@@ -32,6 +32,7 @@ import LayoutAdmin from './components/Admin/LayoutAdmin';
 import './styles/reset.css'
 
 import UserTable from './components/Admin/User/UserTable';
+import BookTable from './components/Admin/Book/BookTable';
 
 
 
@@ -78,7 +79,7 @@ export default function App() {
           element: <ContactPage />,
         },
         {
-          path: "book",
+          path: "book/:slug", // Có dấu ":" có nghĩa là đang định nghĩa Params (tham số); slug là kiểu covert của url mà mỗi từ cách nhau = dấu "-" (ở đây slug chỉ là tên đại diện)
           element: <BookPage />,
         },
       ]
@@ -108,7 +109,7 @@ export default function App() {
           path: "book",
           element:
             <ProtectedRoute>
-              <BookPage />
+              <BookTable />
             </ProtectedRoute>,
         },
         {
