@@ -17,6 +17,7 @@ import {
     MenuFoldOutlined
 } from '@ant-design/icons';
 import { Breadcrumb, Divider, Layout, Menu, theme } from 'antd';
+import { useEffect } from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,26 +29,10 @@ const items = [
         icon: <AppstoreOutlined />
     },
     {
-        label: <span>Manage User</span>,
+        label: <Link to='/admin/user'>CRUD</Link>,
         key: 'user',
         icon: <UserOutlined />,
-        children: [
-            {
-                label: <Link to='/admin/user'>CRUD</Link>,
-                key: 'crud',
-                icon: <TeamOutlined />
-            },
-            {
-                label: 'field1',
-                key: 'field1',
-                icon: <TeamOutlined />
-            },
-            {
-                label: 'field2',
-                key: 'field2',
-                icon: <TeamOutlined />
-            },
-        ]
+
     },
     {
         label: <Link to='/admin/book' >Manage Book</Link>,
@@ -78,25 +63,25 @@ const LayoutAdmin = () => {
     } = theme.useToken();
 
 
-
+    useEffect(() => {
+        if (window.location.pathname.includes('/book')) {
+            setActiveMenu('book')
+        }
+        if (window.location.pathname.includes('/user')) {
+            setActiveMenu('user')
+        }
+        if (window.location.pathname.includes('/orders')) {
+            setActiveMenu('orders')
+        }
+    }, [])
 
     return (
-        // <div className='layout-app'>
-        //     {isAdminRoute && userRole === 'ADMIN' && <HeaderAdmin />}
-        //     {/* <Header /> */}
-        //     <Outlet />
-        //     {/* <Footer /> */}
-        //     {isAdminRoute && userRole === 'ADMIN' && <FooterAdmin />}
-        // </div>
-
         <>
-
             <div className='wrapper'>
 
                 <Layout
                     style={{
                         minHeight: '100vh',
-
 
                     }}
                 >
@@ -109,7 +94,8 @@ const LayoutAdmin = () => {
                         <div style={{ fontSize: '16px', color: '#333', fontWeight: 500, textAlign: 'center', padding: '12px' }}>Admin</div>
                         <Menu
                             theme="light"
-                            defaultSelectedKeys={[activeMenu]}
+                            // defaultSelectedKeys={[activeMenu]}
+                            selectedKeys={[activeMenu]}
                             mode="inline"
                             items={items}
                             onClick={(e) => setActiveMenu(e.key)}

@@ -10,7 +10,8 @@ const initialState = {
         fullName: "",
         role: "",
         avatar: "",
-        id: ""
+        id: "",
+        tempAvatar: "",
     }
 };
 
@@ -41,6 +42,14 @@ export const accountSlice = createSlice({
                 avatar: "",
                 id: ""
             }
+        },
+        doUpdateUserInforAction: (state, action) => {
+            state.user.avatar = action.payload.avatar;
+            state.user.phone = action.payload.phone;
+            state.user.fullName = action.payload.fullName;
+        },
+        doUploadAvatarAction: (state, action) => {
+            state.user.tempAvatar = action.payload.avatar
         }
 
     },
@@ -50,7 +59,14 @@ export const accountSlice = createSlice({
     },
 });
 
-export const { doLoginAction, doGetAccountAction, doLogoutAction } = accountSlice.actions;
+export const
+    {
+        doLoginAction,
+        doGetAccountAction,
+        doLogoutAction,
+        doUpdateUserInforAction,
+        doUploadAvatarAction
+    } = accountSlice.actions;
 
 
 

@@ -1,4 +1,5 @@
 
+import { Avatar } from 'antd'
 import axios from '../utils/axios-customize'
 
 
@@ -88,4 +89,44 @@ export const callDeleteBook = (bookId) => {
 
 export const callFetchBookById = (id) => {
     return axios.get(`api/v1/book/${id}`)
+}
+
+export const callOrderBook = (data) => {
+    return axios.post('/api/v1/order', { ...data })
+}
+
+export const callFetchOrderHistory = () => {
+    return axios.get('/api/v1/history')
+}
+
+export const callUpdateAvatar = (fileImg) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append('fileImg', fileImg);
+    return axios({
+        method: 'post',
+        url: '/api/v1/file/upload',
+        data: bodyFormData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            "upload-type": "avatar"
+        },
+    });
+}
+
+export const callUpdateUserInfor = (_id, fullName, phone, avatar) => {
+    return axios.put(`/api/v1/user`, { _id, fullName, phone, avatar })
+}
+
+export const callUpdatePassword = (email, oldpass, newpass) => {
+    return axios.post(`/api/v1/user/change-password`, { email, oldpass, newpass })
+}
+
+
+export const callFetchDashboard = () => {
+    return axios.get(`/api/v1/database/dashboard`)
+}
+
+
+export const callFetchListOrder = (query) => {
+    return axios.get(`api/v1/order?${query}`)
 }

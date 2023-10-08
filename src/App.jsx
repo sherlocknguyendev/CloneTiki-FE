@@ -14,8 +14,8 @@ import BookPage from './pages/book';
 
 import Home from './components/Home';
 
-import OrdersPage from './pages/orders';
-import UserPage from './pages/user'
+import OrdersPage from './pages/orders/OrdersPage';
+import HistoryPage from './pages/History/HistoryPage';
 
 import { callFetchAccount } from './service/api';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,13 +26,16 @@ import NotFound from './components/NotFound';
 import AdminPage from './pages/admin';
 import ProtectedRoute from './components/ProtectedRoute';
 
+import DashBoard from './components/Admin/dashboard';
 import LayoutNormal from './components/LayoutNormal'
 import LayoutAdmin from './components/Admin/LayoutAdmin';
 
 import './styles/reset.css'
+import './styles/global.scss'
 
 import UserTable from './components/Admin/User/UserTable';
 import BookTable from './components/Admin/Book/BookTable';
+import OrderTable from './components/Admin/Orders/OrderTable';
 
 
 
@@ -74,13 +77,21 @@ export default function App() {
 
       children: [
         { index: true, element: <Home /> },
-        {
-          path: "contact",
-          element: <ContactPage />,
-        },
+        // {
+        //   path: "contact",
+        //   element: <ContactPage />,
+        // },
         {
           path: "book/:slug", // Có dấu ":" có nghĩa là đang định nghĩa Params (tham số); slug là kiểu covert của url mà mỗi từ cách nhau = dấu "-" (ở đây slug chỉ là tên đại diện)
           element: <BookPage />,
+        },
+        {
+          path: "order",
+          element: <ProtectedRoute> <OrdersPage /> </ProtectedRoute>,
+        },
+        {
+          path: "history",
+          element: <ProtectedRoute> <HistoryPage /> </ProtectedRoute>,
         },
       ]
 
@@ -95,7 +106,7 @@ export default function App() {
         {
           index: true, element:
             <ProtectedRoute>
-              <AdminPage />
+              <DashBoard />
             </ProtectedRoute>
         },
         {
@@ -116,9 +127,16 @@ export default function App() {
           path: "orders",
           element:
             <ProtectedRoute>
-              <OrdersPage />
+              <OrderTable />
             </ProtectedRoute>,
         },
+        // {
+        //   path: "history",
+        //   element:
+        //     <ProtectedRoute>
+        //       <HistoryPage />
+        //     </ProtectedRoute>,
+        // },
       ]
 
     },

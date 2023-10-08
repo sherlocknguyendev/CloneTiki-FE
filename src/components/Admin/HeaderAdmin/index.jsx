@@ -8,9 +8,13 @@ import { doLogoutAction } from '../../../redux/account/accountSlice';
 import { callLogout } from '../../../service/api';
 
 import './HeaderAdmin.scss'
+import ManageAccount from '../../Manager/ManageAccount';
 
 
 const HeaderAdmin = () => {
+
+    const [isOpenManageModal, setIsOpenManageModal] = useState(false)
+
 
 
     const navigate = useNavigate()
@@ -31,9 +35,10 @@ const HeaderAdmin = () => {
             key: 'home',
         },
         {
-            label: <label style={{ cursor: 'pointer' }}>Quản lý tài thoản</label>,
+            label: <label onClick={() => setIsOpenManageModal(true)} style={{ cursor: 'pointer' }}>Quản lý tài thoản</label>,
             key: 'account',
         },
+
         {
             label: <label style={{ cursor: 'pointer' }} onClick={() => handleLogout()}>Đăng xuất</label>,
             key: 'logout',
@@ -69,6 +74,11 @@ const HeaderAdmin = () => {
                     </Dropdown>
                 </div>
             </div>
+
+            <ManageAccount
+                isOpenManageModal={isOpenManageModal}
+                setIsOpenManageModal={setIsOpenManageModal}
+            />
         </>
     )
 }

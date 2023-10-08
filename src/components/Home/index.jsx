@@ -1,14 +1,17 @@
 
 
 import { FilterTwoTone, KeyOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Row, Col, Form, Checkbox, Divider, InputNumber, Button, Rate, Tabs, Pagination, Spin } from 'antd';
+import { Row, Col, Form, Checkbox, Divider, InputNumber, Button, Rate, Tabs, Pagination, Spin, Empty } from 'antd';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useOutletContext } from 'react-router-dom';
 
 import './Home.scss';
 import { callFetchListBook, callFetchCategory } from '../../service/api';
 
 const Home = () => {
+
+    const [searchTerm, setSearchTerm] = useOutletContext()
+
     const [listBook, setListBook] = useState([]);
     const [current, setCurrent] = useState(1)
     const [pageSize, setPageSize] = useState(5)
@@ -60,7 +63,7 @@ const Home = () => {
 
     useEffect(() => {
         fetchBookHome();
-    }, [current, pageSize, filter, sortQuery])
+    }, [current, pageSize, filter, sortQuery, searchTerm])
 
 
     const fetchBookHome = async () => {
@@ -71,6 +74,9 @@ const Home = () => {
         }
         if (sortQuery) {
             query += `&${sortQuery}`
+        }
+        if (searchTerm) {
+            query += `&mainText=/${searchTerm}/i`
         }
         const res = await callFetchListBook(query);
         if (res && res.data) {
@@ -198,7 +204,11 @@ const Home = () => {
                 <Col md={4} sm={0} xs={0} style={{ padding: '16px', borderRight: '1px solid #999' }}>
                     <div style={{ display: 'flex', justifyContent: "space-between" }}>
                         <span className='filter'> <FilterTwoTone /> Bộ lọc tìm kiếm</span>
-                        <ReloadOutlined className='reset' title="Reset" onClick={() => form.resetFields()} />
+                        <ReloadOutlined className='reset' title="Reset" onClick={() => {
+                            form.resetFields();
+                            setSearchTerm('');
+                            setFilter('');
+                        }} />
                     </div>
                     <Form
                         isLoading={isLoading}
@@ -309,19 +319,20 @@ const Home = () => {
                                     </div>
                                 </div>
                             ))}
-
+                            {listBook.length <= 0 && <Empty style={{ width: '100%', height: "300px", padding: '80px 0' }} description={<>Không tìm thấy sản phẩm</>} />}
 
                         </Row>
                         <Divider />
                         <Row style={{ display: "flex", justifyContent: "center", margin: "8px 0" }}>
-                            <Pagination
-                                onChange={(c, pS) => handleOnChangePage({ current: c, pageSize: pS })}
-                                current={current}
-                                pageSize={pageSize}
-                                total={total}
-                                showSizeChanger={true}
-                                responsive
-                            />
+                            {listBook.length > 0 &&
+                                <Pagination
+                                    onChange={(c, pS) => handleOnChangePage({ current: c, pageSize: pS })}
+                                    current={current}
+                                    pageSize={pageSize}
+                                    total={total}
+                                    showSizeChanger={true}
+                                    responsive
+                                />}
                         </Row>
                     </Spin>
                 </Col>

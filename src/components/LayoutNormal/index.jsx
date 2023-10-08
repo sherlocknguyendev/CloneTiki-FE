@@ -5,6 +5,7 @@ import { Layout, Space } from 'antd';
 import HeaderNormal from '../HeaderNormal';
 import FooterNormal from '../FooterNormal';
 import { Outlet } from 'react-router-dom'
+import { useState } from 'react';
 
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -45,6 +46,9 @@ const footerStyle = {
 
 
 const LayoutNormal = () => {
+
+    const [searchTerm, setSearchTerm] = useState("")
+
     return (
         <>
             <div className='wrapper'>
@@ -60,13 +64,12 @@ const LayoutNormal = () => {
                         minHeight: '100vh'
                     }}>
                         <Header style={headerStyle}>
-                            <HeaderNormal />
+                            <HeaderNormal searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                         </Header>
 
                         <Layout hasSider>
-                            {/* <Sider style={siderStyle}>Sider</Sider> */}
                             <Content style={contentStyle}>
-                                <Outlet />
+                                <Outlet context={[searchTerm, setSearchTerm]} />
                             </Content>
                         </Layout>
 
