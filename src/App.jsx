@@ -15,7 +15,7 @@ import BookPage from './pages/book';
 import Home from './components/Home';
 
 import OrdersPage from './pages/orders/OrdersPage';
-import HistoryPage from './pages/History/HistoryPage';
+import HistoryPage from './pages/history/HistoryPage';
 
 import { callFetchAccount } from './service/api';
 import { useDispatch, useSelector } from 'react-redux';
