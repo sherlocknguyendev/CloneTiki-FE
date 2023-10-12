@@ -26,7 +26,7 @@ import NotFound from './components/NotFound';
 import AdminPage from './pages/admin';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import DashBoard from './components/Admin/dashboard';
+import DashBoard from './components/Admin/Dashboard';
 import LayoutNormal from './components/LayoutNormal'
 import LayoutAdmin from './components/Admin/LayoutAdmin';
 
