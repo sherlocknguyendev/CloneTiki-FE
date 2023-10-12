@@ -39,7 +39,7 @@ const ModalGallery = (props) => {
                     />
                 </Col>
                 <Col span={8}>
-                    <div>{title}</div>
+                    <div style={{ marginBottom: '8px', fontSize: '16px', fontWeight: 500 }}>{title}</div>
                     <div>
                         <Row gutter={[20, 20]}>
                             {

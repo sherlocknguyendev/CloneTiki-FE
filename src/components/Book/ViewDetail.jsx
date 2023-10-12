@@ -9,6 +9,7 @@ import ModalGallery from './ModalGallery';
 import BookLoading from './BookLoading';
 import { doAddBookAction } from '../../redux/order/orderSlice';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 const ViewDetail = (props) => {
@@ -23,6 +24,8 @@ const ViewDetail = (props) => {
     const refGallery = useRef(null);
 
     const dispatch = useDispatch()
+
+    const navigate = useNavigate()
 
 
 
@@ -121,7 +124,7 @@ const ViewDetail = (props) => {
                                         <BsCartPlus className='icon-cart' />
                                         <span>Thêm vào giỏ hàng</span>
                                     </button>
-                                    <button className='now'>Mua ngay</button>
+                                    <button onClick={() => navigate('/order')} className='now'>Mua ngay</button>
                                 </div>
                             </Col>
                         </Row>
@@ -135,7 +138,7 @@ const ViewDetail = (props) => {
                 setIsOpen={setIsOpenModalGallery}
                 currentIndex={currentIndex}
                 items={images}
-                title={"hardcode"}
+                title={dataBook.mainText}
             />
         </div >
     )

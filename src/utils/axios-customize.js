@@ -15,11 +15,6 @@ const instance = axios.create({
     withCredentials: true // Credentials: Thông tin xác thực, chứng chỉ
 });
 
-const hanldeRefreshToken = async () => {
-    const res = await instance.get('/api/v1/auth/refresh')
-    if (res && res.data) return res.data.access_token;
-    else null;
-}
 
 instance.defaults.headers.common = { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` } // Gán token vào axios (mỗi request của axios sẽ gán thêm Bearer token)
 // Vì mỗi lần re-load lại trang là mất dữ liệu ở redux (trừ access_token ở localStorage) nên phải gán token vào axios -> để gọi API từ BE và BE sẽ dựa vào token riêng để lấy dữ liệu
