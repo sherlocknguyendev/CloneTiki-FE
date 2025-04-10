@@ -103,7 +103,7 @@ const HeaderNormal = ({ searchTerm, setSearchTerm }) => {
                     <Link className='icon' to='/'>
                         <BiLogoReact />
                     </Link>
-                    <Link to='/' className='trademark'>S.N.Dev</Link>
+                    <Link to='/' className='trademark'>CloneTiki</Link>
                 </div>
                 <div className="nav_search-cart">
                     <div className='search'>

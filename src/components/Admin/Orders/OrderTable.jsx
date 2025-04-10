@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Row, Col } from 'antd';
 import { callFetchListOrder } from '../../../service/api';
+import { BsPen, BsTrash3 } from 'react-icons/bs';
 
 
 
@@ -62,6 +63,25 @@ const OrderTable = () => {
         {
             title: 'Ngày cập nhật',
             dataIndex: 'updatedAt',
+
+        },
+        {
+            title: 'Action',
+            width: 120,
+            render: (text, record, index) => {
+                return (
+                    <>
+                        <span className='btn-delete'>
+                            <BsTrash3 />
+                        </span>
+
+                        <span
+                            className='btn-edit'>
+                            <BsPen />
+                        </span>
+                    </>
+                )
+            }
 
         },
     ];

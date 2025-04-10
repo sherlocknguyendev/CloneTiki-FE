@@ -5,6 +5,7 @@ import './book.scss';
 
 const ModalGallery = (props) => {
     const { isOpen, setIsOpen, currentIndex, items, title } = props;
+    console.log(props);
     const [activeIndex, setActiveIndex] = useState(0);
 
     const refGallery = useRef(null);
